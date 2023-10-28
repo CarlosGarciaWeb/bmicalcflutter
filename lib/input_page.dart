@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bmicalculator/reusable_card.dart';
+import 'package:bmicalculator/card_icons.dart';
 
 const defaultColor = Color(0xFF0A0E21);
-const defaultCardColor = Color(0xFF1D1E33);
+const defaultCardColor =Color(0xFF1D1E33) ;
+const inactiveCardColor = Color(0xFF111328);
 const bottomColor = Colors.red;
+
+enum Gender {
+  female,
+  male
+}
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -13,6 +21,27 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Color activeCardColor = defaultCardColor;
+  Color femaleCardColor = inactiveCardColor;
+  Color maleCardColor = inactiveCardColor;
+
+  showActiveCard(Gender selectedCard) {
+    setState(() {
+      if (selectedCard == Gender.female && femaleCardColor == activeCardColor) {
+        femaleCardColor = inactiveCardColor;
+      } else if (selectedCard == Gender.male &&
+          maleCardColor == activeCardColor) {
+        maleCardColor = inactiveCardColor;
+      } else if (selectedCard == Gender.female) {
+        femaleCardColor = activeCardColor;
+        maleCardColor = inactiveCardColor;
+      } else if (selectedCard == Gender.male) {
+        maleCardColor = activeCardColor;
+        femaleCardColor = inactiveCardColor;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,20 +51,30 @@ class _InputPageState extends State<InputPage> {
       body: Center(
         child: Column(
           children: [
-            const Expanded(
+            Expanded(
               child: Row(
                 children: [
-                  BMICard(
-                    cardColor: defaultCardColor,
-                    cardChild: CardChild(
-                      cardIcon: FontAwesomeIcons.venus,
-                      cardTitle: "FEMALE",
+                  GestureDetector(
+                    onTap: () {
+                      showActiveCard(Gender.female);
+                    },
+                    child: BMICard(
+                      cardColor: femaleCardColor,
+                      cardChild: const CardChild(
+                        cardIcon: FontAwesomeIcons.venus,
+                        cardTitle: "FEMALE",
+                      ),
                     ),
                   ),
-                  BMICard(
-                    cardColor: defaultCardColor,
-                    cardChild: CardChild(
-                        cardIcon: FontAwesomeIcons.mars, cardTitle: "MALE"),
+                  GestureDetector(
+                    onTap: () {
+                      showActiveCard(Gender.male);
+                    },
+                    child: BMICard(
+                      cardColor: maleCardColor,
+                      cardChild: const CardChild(
+                          cardIcon: FontAwesomeIcons.mars, cardTitle: "MALE"),
+                    ),
                   ),
                 ],
               ),
@@ -44,7 +83,7 @@ class _InputPageState extends State<InputPage> {
               child: Row(
                 children: [
                   BMICard(
-                    cardColor: defaultCardColor,
+                    cardColor: inactiveCardColor,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -64,7 +103,7 @@ class _InputPageState extends State<InputPage> {
               child: Row(
                 children: [
                   BMICard(
-                    cardColor: defaultCardColor,
+                    cardColor: inactiveCardColor,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -91,7 +130,7 @@ class _InputPageState extends State<InputPage> {
                     ),
                   ),
                   BMICard(
-                    cardColor: defaultCardColor,
+                    cardColor: inactiveCardColor,
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -127,54 +166,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CardChild extends StatelessWidget {
-  const CardChild({super.key, required this.cardIcon, required this.cardTitle});
-
-  final IconData cardIcon;
-  final String cardTitle;
-
-  final double cardChildSpacing = 15.0;
-  final double cardChildIconSize = 56.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        FaIcon(
-          cardIcon,
-          size: cardChildIconSize,
-        ),
-        SizedBox(height: cardChildSpacing),
-        Text(cardTitle)
-      ],
-    );
-  }
-}
-
-class BMICard extends StatelessWidget {
-  const BMICard({super.key, required this.cardColor, required this.cardChild});
-
-  final Widget cardChild;
-  final Color cardColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(15.0),
-        height: 200.00,
-        width: 170.00,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: defaultCardColor,
-        ),
-        child: cardChild,
       ),
     );
   }
