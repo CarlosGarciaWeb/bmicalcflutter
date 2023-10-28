@@ -4,14 +4,11 @@ import 'package:bmicalculator/reusable_card.dart';
 import 'package:bmicalculator/card_icons.dart';
 
 const defaultColor = Color(0xFF0A0E21);
-const defaultCardColor =Color(0xFF1D1E33) ;
+const defaultCardColor = Color(0xFF1D1E33);
 const inactiveCardColor = Color(0xFF111328);
 const bottomColor = Colors.red;
 
-enum Gender {
-  female,
-  male
-}
+enum Gender { female, male }
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -21,26 +18,7 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Color activeCardColor = defaultCardColor;
-  Color femaleCardColor = inactiveCardColor;
-  Color maleCardColor = inactiveCardColor;
-
-  showActiveCard(Gender selectedCard) {
-    setState(() {
-      if (selectedCard == Gender.female && femaleCardColor == activeCardColor) {
-        femaleCardColor = inactiveCardColor;
-      } else if (selectedCard == Gender.male &&
-          maleCardColor == activeCardColor) {
-        maleCardColor = inactiveCardColor;
-      } else if (selectedCard == Gender.female) {
-        femaleCardColor = activeCardColor;
-        maleCardColor = inactiveCardColor;
-      } else if (selectedCard == Gender.male) {
-        maleCardColor = activeCardColor;
-        femaleCardColor = inactiveCardColor;
-      }
-    });
-  }
+  Gender? selectedGender;
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +34,14 @@ class _InputPageState extends State<InputPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      showActiveCard(Gender.female);
+                      setState(() {
+                        selectedGender = Gender.female;
+                      });
                     },
                     child: BMICard(
-                      cardColor: femaleCardColor,
+                      cardColor: Gender.female == selectedGender
+                          ? defaultCardColor
+                          : inactiveCardColor,
                       cardChild: const CardChild(
                         cardIcon: FontAwesomeIcons.venus,
                         cardTitle: "FEMALE",
@@ -68,10 +50,14 @@ class _InputPageState extends State<InputPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      showActiveCard(Gender.male);
+                      setState(() {
+                        selectedGender = Gender.male;
+                      });
                     },
                     child: BMICard(
-                      cardColor: maleCardColor,
+                      cardColor: Gender.male == selectedGender
+                          ? defaultCardColor
+                          : inactiveCardColor,
                       cardChild: const CardChild(
                           cardIcon: FontAwesomeIcons.mars, cardTitle: "MALE"),
                     ),
