@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bmicalculator/reusable_card.dart';
 import 'package:bmicalculator/card_icons.dart';
-
-const defaultColor = Color(0xFF0A0E21);
-const defaultCardColor = Color(0xFF1D1E33);
-const inactiveCardColor = Color(0xFF111328);
-const bottomColor = Colors.red;
+import 'package:bmicalculator/constants.dart';
 
 enum Gender { female, male }
 
@@ -19,6 +15,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender? selectedGender;
+  int _height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +25,7 @@ class _InputPageState extends State<InputPage> {
       ),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: Row(
@@ -65,7 +63,7 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            const Expanded(
+            Expanded(
               child: Row(
                 children: [
                   BMICard(
@@ -73,12 +71,38 @@ class _InputPageState extends State<InputPage> {
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('HEIGHT'),
+                        const Text(
+                          'HEIGHT',
+                          style: labelStyle,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text('150'), Text('cm')],
+                          textBaseline: TextBaseline.alphabetic,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          children: [
+                            Text(
+                              _height.toString(),
+                              style: numStyle,
+                            ),
+                            const Text(
+                              'cm',
+                              style: labelStyle,
+                            )
+                          ],
                         ),
-                        Text('Slider goes here')
+                        Slider(
+                          value: _height.toDouble(),
+                          min: 120,
+                          max: 240,
+                          onChanged: (double newValue) {
+                            print(newValue);
+                            setState(() {
+                              _height = newValue.round();
+                            });
+                          },
+                          activeColor: const Color(0xFFEB1555),
+                          inactiveColor: const Color(0xFF8D8E98),
+                        )
                       ],
                     ),
                   ),

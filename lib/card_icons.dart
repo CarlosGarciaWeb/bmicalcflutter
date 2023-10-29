@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bmicalculator/constants.dart';
+
 
 class CardChild extends StatelessWidget {
   const CardChild({super.key, required this.cardIcon, required this.cardTitle});
@@ -20,7 +22,7 @@ class CardChild extends StatelessWidget {
           size: cardChildIconSize,
         ),
         SizedBox(height: cardChildSpacing),
-        Text(cardTitle)
+        Text(cardTitle, style: labelStyle,)
       ],
     );
   }
