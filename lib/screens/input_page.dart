@@ -1,10 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bmicalculator/reusable_card.dart';
-import 'package:bmicalculator/card_icons.dart';
+import 'package:bmicalculator/components/reusable_card.dart';
+import 'package:bmicalculator/components/card_icons.dart';
 import 'package:bmicalculator/constants.dart';
+import 'package:bmicalculator/components/bottom_container.dart';
 
 enum Gender { female, male }
 
@@ -207,20 +206,11 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            Container(
-              color: bottomColor,
-              margin: const EdgeInsets.only(top: 10.0),
-              height: 50.0,
-              child: Center(
-                child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/results');
-                    },
-                    child: const Text(
-                      'CALCULATE',
-                      style: labelStyle,
-                    )),
-              ),
+            const BottomContainer(
+              bottomLabel: 'CALCULATE',
+              route: 
+                '/results'
+              ,
             ),
           ],
         ),
