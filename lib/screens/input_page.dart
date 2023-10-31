@@ -1,3 +1,4 @@
+import 'package:bmicalculator/screens/results_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bmicalculator/components/reusable_card.dart';
@@ -206,11 +207,16 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            const BottomContainer(
+            BottomContainer(
               bottomLabel: 'CALCULATE',
-              route: 
-                '/results'
-              ,
+              onPress: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ResultsPage(),
+                  ),
+                );
+              },
             ),
           ],
         ),

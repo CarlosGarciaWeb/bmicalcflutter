@@ -5,11 +5,11 @@ class BottomContainer extends StatelessWidget {
   const BottomContainer({
     super.key,
     required this.bottomLabel,
-    required this.route,
+    required this.onPress,
   });
 
   final String bottomLabel;
-  final String route;
+  final void Function()? onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +20,7 @@ class BottomContainer extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20.0),
       child: Center(
         child: TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, route);
-            },
+            onPressed: onPress,
             child: Text(
               bottomLabel,
               style: kLargeButtonTextStyle,

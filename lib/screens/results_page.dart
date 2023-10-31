@@ -12,11 +12,11 @@ class ResultsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Center(child: Text('Results')),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
+            const Expanded(
               child: BMICard(
                 cardColor: defaultCardColor,
                 cardChild: Column(
@@ -36,9 +36,11 @@ class ResultsPage extends StatelessWidget {
               ),
             ),
             BottomContainer(
-                bottomLabel: 'RE-CALCULATE',
-                route: '/' 
-                )
+              bottomLabel: 'RE-CALCULATE',
+              onPress: () {
+                Navigator.pop(context);
+              },
+            )
           ],
         ),
       ),
