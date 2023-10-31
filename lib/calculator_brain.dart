@@ -9,8 +9,11 @@ class CalculatorBrain {
   double _bmi = 0;
 
   String calculateBMI() {
-    _bmi = weight / pow(height, 2);
-    return _bmi.toStringAsFixed(2);
+    _bmi = weight / pow(height/100, 2);
+    print(_bmi);
+    print(weight);
+    print(height);
+    return _bmi.toStringAsFixed(1);
   }
 
   String getResult() {
@@ -29,7 +32,7 @@ class CalculatorBrain {
     } else if (_bmi > 18.5) {
       return 'You have a normal body weight. Continue to take care of yourself.';
     } else {
-      return 'You have a lowe than normal body weight. Please take care of yourself';
+      return 'You have a lower than normal body weight. Please take care of yourself';
     }
   }
 }

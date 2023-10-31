@@ -4,7 +4,15 @@ import 'package:bmicalculator/constants.dart';
 import 'package:bmicalculator/components/bottom_container.dart';
 
 class ResultsPage extends StatelessWidget {
-  const ResultsPage({super.key});
+  const ResultsPage(
+      {super.key,
+      required this.bmiResult,
+      required this.resultText,
+      required this.interpretation});
+
+  final String bmiResult;
+  final String resultText;
+  final String interpretation;
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +24,21 @@ class ResultsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Expanded(
+            Expanded(
               child: BMICard(
                 cardColor: defaultCardColor,
                 cardChild: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'UNDERWEIGHT',
+                      resultText,
                       style: kResultsHeaderStyle,
                     ),
                     Text(
-                      '28.5',
+                      bmiResult,
                       style: numStyle,
                     ),
-                    Text('Description')
+                    Text(interpretation)
                   ],
                 ),
               ),
