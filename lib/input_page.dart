@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bmicalculator/reusable_card.dart';
@@ -16,6 +18,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender? selectedGender;
   int _height = 180;
+  int _weight = 60;
+  int _age = 18;
 
   @override
   Widget build(BuildContext context) {
@@ -30,34 +34,38 @@ class _InputPageState extends State<InputPage> {
             Expanded(
               child: Row(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedGender = Gender.female;
-                      });
-                    },
-                    child: BMICard(
-                      cardColor: Gender.female == selectedGender
-                          ? defaultCardColor
-                          : inactiveCardColor,
-                      cardChild: const CardChild(
-                        cardIcon: FontAwesomeIcons.venus,
-                        cardTitle: "FEMALE",
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedGender = Gender.female;
+                        });
+                      },
+                      child: BMICard(
+                        cardColor: Gender.female == selectedGender
+                            ? defaultCardColor
+                            : inactiveCardColor,
+                        cardChild: const CardChild(
+                          cardIcon: FontAwesomeIcons.venus,
+                          cardTitle: "FEMALE",
+                        ),
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedGender = Gender.male;
-                      });
-                    },
-                    child: BMICard(
-                      cardColor: Gender.male == selectedGender
-                          ? defaultCardColor
-                          : inactiveCardColor,
-                      cardChild: const CardChild(
-                          cardIcon: FontAwesomeIcons.mars, cardTitle: "MALE"),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedGender = Gender.male;
+                        });
+                      },
+                      child: BMICard(
+                        cardColor: Gender.male == selectedGender
+                            ? defaultCardColor
+                            : inactiveCardColor,
+                        cardChild: const CardChild(
+                            cardIcon: FontAwesomeIcons.mars, cardTitle: "MALE"),
+                      ),
                     ),
                   ),
                 ],
@@ -81,11 +89,11 @@ class _InputPageState extends State<InputPage> {
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
                             Text(
-                              _height.toString(),
+                              (_height/100).toString(),
                               style: numStyle,
                             ),
                             const Text(
-                              'cm',
+                              'm',
                               style: labelStyle,
                             )
                           ],
@@ -95,7 +103,6 @@ class _InputPageState extends State<InputPage> {
                           min: 120,
                           max: 240,
                           onChanged: (double newValue) {
-                            print(newValue);
                             setState(() {
                               _height = newValue.round();
                             });
@@ -117,23 +124,41 @@ class _InputPageState extends State<InputPage> {
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('WEIGHT'),
-                        const Text('87'),
+                        const Text(
+                          'WEIGHT',
+                          style: labelStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          textBaseline: TextBaseline.alphabetic,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          children: [
+                            Text(
+                              _weight.toString(),
+                              style: numStyle,
+                            ),
+                            const Text("kg", style: labelStyle,),
+                          ],
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            TextButton(
-                                onPressed: () {},
-                                child: const Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                )),
-                            TextButton(
-                                onPressed: () {},
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                )),
+                            RoundIconButton(
+                              newIcon: Icons.remove,
+                              buttonFunction: () {
+                                setState(() {
+                                  _weight -= 1;
+                                });
+                              },
+                            ),
+                            RoundIconButton(
+                              newIcon: Icons.add,
+                              buttonFunction: () {
+                                setState(() {
+                                  _weight += 1;
+                                });
+                              },
+                            ),
                           ],
                         )
                       ],
@@ -144,23 +169,33 @@ class _InputPageState extends State<InputPage> {
                     cardChild: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('AGE'),
-                        const Text('25'),
+                        const Text(
+                          'AGE',
+                          style: labelStyle,
+                        ),
+                        Text(
+                          _age.toString(),
+                          style: numStyle,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            TextButton(
-                                onPressed: () {},
-                                child: const Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                )),
-                            TextButton(
-                                onPressed: () {},
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                )),
+                            RoundIconButton(
+                              newIcon: Icons.remove,
+                              buttonFunction: () {
+                                setState(() {
+                                  _age -= 1;
+                                });
+                              },
+                            ),
+                            RoundIconButton(
+                              newIcon: Icons.add,
+                              buttonFunction: () {
+                                setState(() {
+                                  _age += 1;
+                                });
+                              },
+                            ),
                           ],
                         )
                       ],
@@ -176,6 +211,34 @@ class _InputPageState extends State<InputPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  const RoundIconButton(
+      {super.key, required this.newIcon, required this.buttonFunction});
+
+  final IconData newIcon;
+
+  final void Function()? buttonFunction;
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: buttonFunction,
+      shape: const CircleBorder(),
+      fillColor: const Color(0xFF4C4F5E),
+      constraints: const BoxConstraints(
+        maxWidth: 56.0,
+        maxHeight: 56.0,
+      ),
+      elevation: 16.0,
+      disabledElevation: 16.0,
+      child: Icon(
+        newIcon,
+        color: Colors.white,
       ),
     );
   }

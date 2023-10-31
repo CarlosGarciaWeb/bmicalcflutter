@@ -10,7 +10,7 @@ class CardChild extends StatelessWidget {
   final String cardTitle;
 
   final double cardChildSpacing = 15.0;
-  final double cardChildIconSize = 56.0;
+  final double cardChildIconSize = 50.0;
 
   @override
   Widget build(BuildContext context) {
