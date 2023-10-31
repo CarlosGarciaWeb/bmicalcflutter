@@ -89,7 +89,7 @@ class _InputPageState extends State<InputPage> {
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           children: [
                             Text(
-                              (_height/100).toString(),
+                              (_height / 100).toString(),
                               style: numStyle,
                             ),
                             const Text(
@@ -137,7 +137,10 @@ class _InputPageState extends State<InputPage> {
                               _weight.toString(),
                               style: numStyle,
                             ),
-                            const Text("kg", style: labelStyle,),
+                            const Text(
+                              "kg",
+                              style: labelStyle,
+                            ),
                           ],
                         ),
                         Row(
@@ -208,6 +211,16 @@ class _InputPageState extends State<InputPage> {
               color: bottomColor,
               margin: const EdgeInsets.only(top: 10.0),
               height: 50.0,
+              child: Center(
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/results');
+                    },
+                    child: const Text(
+                      'CALCULATE',
+                      style: labelStyle,
+                    )),
+              ),
             ),
           ],
         ),
